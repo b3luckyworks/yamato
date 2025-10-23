@@ -1,0 +1,52 @@
+window {
+  background-color: rgba(26, 28, 32, 0.55);
+  color: #eaeaea;
+  font-family: "MesloLGS Nerd Font", "Inter", "Noto Sans", Cantarell, sans-serif;
+}
+#outer-box { padding: 32px; }
+#layout-box { padding: 6px; }
+
+button {
+  min-width: 140px; 
+  min-height: 140px; 
+  margin: 12px;
+
+  background-color: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+
+  background-repeat: no-repeat; 
+  background-position: center; 
+  background-size: 150px;
+
+  padding-top: 108px;
+  font-weight: 600; 
+  font-size: 14px; 
+  letter-spacing: 0.2px;
+}
+button:hover {
+  background-color: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.28);
+  box-shadow: 0 0 0 2px rgba(120,180,255,0.25), 0 12px 32px rgba(0,0,0,0.40);
+}
+button:active {
+  background-color: rgba(24,28,34,0.95);
+  padding-top: 96px;     /* wirkt wie „gedrückt“ */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35) inset;
+}
+
+button:focus {
+  outline: 2px solid rgba(255,255,255,0.15); /* Tastatur-Fokus sichtbar machen */
+}
+
+/* Lokale Icons */
+#lock     { background-image: url("icons/lock.svg"); }
+#reboot   { background-image: url("icons/reboot.svg"); }
+#shutdown { background-image: url("icons/shutdown.svg"); }
+#suspend  { background-image: url("icons/suspend.svg"); }
+#logout   { background-image: url("icons/logout.svg"); }
+#screensaver { background-image: url("icons/screensaver.svg"); }
+
+button > label { font-size: 30px; font-weight: 700; }
+

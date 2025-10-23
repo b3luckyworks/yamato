@@ -1,0 +1,5 @@
+{ "label": "lock",     "text": "Sperren",        "action": "hyprlock" }
+{ "label": "reboot",   "text": "Neustart",       "action": "systemctl reboot -i" }
+{ "label": "shutdown", "text": "Herunterfahren", "action": "systemctl poweroff -i" }
+{ "label": "suspend",  "text": "Schlafen",       "action": "bash -lc 'hyprlock & sleep 0.5; systemctl suspend'" }
+{ "label": "logout",   "text": "Abmelden",       "action": "hyprctl dispatch exit 0" }
