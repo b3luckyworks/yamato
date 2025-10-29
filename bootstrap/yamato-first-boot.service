@@ -1,0 +1,12 @@
+[Unit]
+Description=Yamato first boot setup
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/yamato-firstboot.sh
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target

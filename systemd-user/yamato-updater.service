@@ -1,0 +1,12 @@
+[Unit]
+Description=Yamato dotfiles updater (git pull + post_install)
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/etc/yamato/is_client
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/git/yamato
+ExecStart=%h/git/yamato/scripts/update.sh
+Nice=10
+

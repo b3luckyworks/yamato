@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Euo pipefail
 
 MODE="${1:-client}"   # client (default) | server
 REPO_DIR="${REPO_DIR:-$HOME/git/yamato}"
 
+trap 'echo "[install] ERROR on line $LINENO"; exit 1' ERR
 log(){ printf "[install] %s\n" "$*"; }
 
 log "System aktualisieren…"
@@ -15,14 +16,19 @@ sudo pacman -S --needed --noconfirm git stow
 # Pakete aus pkglist.txt (falls vorhanden)
 if [[ -f "${REPO_DIR}/packages/pkglist.txt" ]]; then
   log "Pakete aus pkglist.txt…"
-  sudo pacman -S --needed --noconfirm $(grep -vE '^\s*#' "${REPO_DIR}/packages/pkglist.txt" || true)
+  # sicher parsen, kein leerer pacman-Aufruf
+  mapfile -t PKGS < <(grep -vE '^\s*#' "${REPO_DIR}/packages/pkglist.txt" | sed '/^\s*$/d')
+  if (( ${#PKGS[@]} )); then
+    sudo pacman -S --needed --noconfirm "${PKGS[@]}"
+  else
+    log "pkglist.txt leer – überspringe Paketinstallation."
+  fi
 fi
 
 # Dotfiles verlinken (stow)
 if [[ -d "${REPO_DIR}/dotfiles" ]]; then
   log "Dotfiles via stow verlinken…"
   pushd "${REPO_DIR}/dotfiles" >/dev/null
-  # Alle Pakete stowen (nur die, die existieren)
   for pkg in *; do
     [[ -d "$pkg" ]] || continue
     stow -Rvt "$HOME" "$pkg"
@@ -49,18 +55,26 @@ if [[ "$MODE" == "client" ]]; then
   sudo systemctl daemon-reload
   sudo systemctl enable --now yamato-pacman.timer
 
-  # --- yay (AUR, User-Manager global) ---
-  # User-Units global bereitstellen; laufen nur, wenn Marker existiert UND yay vorhanden ist
+  # --- yay (AUR) & Yamato-Git-Updater als globale User-Units bereitstellen ---
+  sudo install -d /etc/systemd/user
+
   sudo install -Dm644 "${REPO_DIR}/scripts/client/yamato-aur.service" /etc/systemd/user/yamato-aur.service
   sudo install -Dm644 "${REPO_DIR}/scripts/client/yamato-aur.timer"   /etc/systemd/user/yamato-aur.timer
-  systemctl --global enable --now yamato-aur.timer || true
 
-  # --- Git-Updater (Dotfiles) als User-Unit (global) ---
-  # Falls du deine yamato-updater.* schon im Repo hast:
   if [[ -f "${REPO_DIR}/systemd-user/yamato-updater.service" && -f "${REPO_DIR}/systemd-user/yamato-updater.timer" ]]; then
     sudo install -Dm644 "${REPO_DIR}/systemd-user/yamato-updater.service" /etc/systemd/user/yamato-updater.service
     sudo install -Dm644 "${REPO_DIR}/systemd-user/yamato-updater.timer"   /etc/systemd/user/yamato-updater.timer
-    systemctl --global enable --now yamato-updater.timer || true
+  fi
+
+  # global für alle User aktivieren (wirksam bei zukünftigen Logins)
+  systemctl --global enable --now yamato-aur.timer || true
+  systemctl --global enable --now yamato-updater.timer 2>/dev/null || true
+
+  # --- sofort für den *aktuellen* User aktivieren (direkt wirksam) ---
+  systemctl --user daemon-reload
+  systemctl --user enable --now yamato-aur.timer 2>/dev/null || true
+  if systemctl --user list-unit-files | grep -q '^yamato-updater.timer'; then
+    systemctl --user enable --now yamato-updater.timer 2>/dev/null || true
   fi
 
   log "Client-Setup fertig."
