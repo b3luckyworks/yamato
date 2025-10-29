@@ -1,0 +1,11 @@
+[Unit]
+Description=Run AUR updates daily (Yamato)
+
+[Timer]
+OnBootSec=20m
+OnCalendar=*-*-* 04:30:00
+RandomizedDelaySec=20m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

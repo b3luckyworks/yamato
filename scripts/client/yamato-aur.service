@@ -1,0 +1,11 @@
+[Unit]
+Description=Yamato client AUR update (yay)
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=/etc/yamato/is_client
+
+[Service]
+Type=oneshot
+# nur ausführen, wenn yay vorhanden ist (sonst still beenden)
+ExecStart=/bin/bash -lc 'command -v yay >/dev/null 2>&1 && yay -Syu --noconfirm --needed || true'
+Nice=10
