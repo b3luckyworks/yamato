@@ -1,0 +1,10 @@
+elecwhat-bin
+glava
+hyprshot-gui
+jdownloader2
+nautilus-admin-gtk4
+trash
+walker
+wayland-logout
+yay-bin
+yay-bin-debug
