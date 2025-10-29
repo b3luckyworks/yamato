@@ -1,0 +1,14 @@
+[Unit]
+Description=Yamato: tägliches Systemupdate (pacman)
+Documentation=man:pacman.conf(5)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/yamato-pacman-update.sh
+Nice=10
+IOSchedulingClass=best-effort
+
+[Install]
+WantedBy=multi-user.target

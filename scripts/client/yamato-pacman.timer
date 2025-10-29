@@ -1,0 +1,11 @@
+[Unit]
+Description=Timer: Yamato pacman Update (täglich)
+
+[Timer]
+OnCalendar=*-*-* 05:00
+RandomizedDelaySec=900
+Persistent=true
+Unit=yamato-pacman.service
+
+[Install]
+WantedBy=timers.target
