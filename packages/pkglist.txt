@@ -1,8 +1,6 @@
 alsa-firmware
 alsa-utils
 amd-ucode
-base
-base-devel
 bash-completion
 bat
 bitwarden
