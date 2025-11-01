@@ -1,5 +1,25 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
 *.swp
-*.log
-*.cache/
-**/.DS_Store
+*.swo
+*~
+.vscode/
 
+# Python / Node / Builds / Caches
+__pycache__/
+*.log
+node_modules/
+dist/
+build/
+.cache/
+*.tar
+*.tar.*
+*.zip
+*.iso
+*.img
+*.qcow2
+
+# Temp
+tmp/
+temp/
