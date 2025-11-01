@@ -1,0 +1,31 @@
+/* OSD-Hintergrund */
+window#osd {
+  background: rgba(20, 20, 24, 0.75); /* BG-Farbe + Transparenz */
+  border-radius: 14px;
+  padding: 4px;
+}
+
+/* Icon-Farbe (z. B. Lautsprecher) */
+window#osd image {
+  color: #cdd6f4; /* Vordergrund/Icon */
+  margin-right: 6px; 
+}
+
+/* Fortschrittsbalken */
+window#osd progressbar trough {
+  background: rgba(255, 255, 255, 0.15); 
+  min-height: 5px;
+}
+window#osd progressbar progress {
+  background: #89b4fa;                     /* Füllfarbe (Volume) */
+  min-height: 4px;         /* Balkendicke */
+  border-radius: 6px;
+}
+
+/* Text (z. B. Prozentzahlen) */
+window#osd label {
+  color: #e6e6e6;
+  /*font-weight: 600;*/
+  font-size: 6px;         /* kleinerer Text */
+  padding: 0 4px;
+}
